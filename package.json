@@ -1,0 +1,34 @@
+{
+    "name": "itis-6177-assignment8",
+    "version": "1.0.0",
+    "description": "Swagger with express",
+    "main": "server.js",
+    "scripts": {
+      "start": "nodemon server.js"
+    },
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/Sree-Gauthami-Gundaram/ITIS-6177-Assignment8.git"
+    },
+    "keywords": [
+      "swagger"
+    ],
+    "author": "Sree-Gauthami-Gundaram <sree.gauthami1@gmail.com>",
+    "license": "ISC",
+    "bugs": {
+      "url": "https://github.com/Sree-Gauthami-Gundaram/ITIS-6177-Assignment8.git/issues"
+    },
+    "homepage": "https://github.com/Sree-Gauthami-Gundaram/ITIS-6177-Assignment8.git.git#readme",
+    "dependencies": {
+      "body-parser": "^1.19.2",
+      "cors": "^2.8.5",
+      "express": "^4.17.3",
+      "express-validator": "^6.14.0",
+      "mariadb": "^2.5.6",
+      "swagger-jsdoc": "^6.1.0",
+      "swagger-ui-express": "^4.3.0"
+    },
+    "devDependencies": {
+      "nodemon": "^2.0.15"
+    }
+  }
