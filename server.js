@@ -9,12 +9,12 @@ const OPTIONS = {
     "definition": {
       "openapi": "3.0.0",
       "info": {
-        "title": "Gauthami Sree",
+        "title": "Swagger API",
         "version": "1.0.0",
-        "description": "A Simple Express Swagger API",
+        "description": "Simple Express Swagger API",
         "termsOfService": "http://example.com/terms/",
         "contact": {
-          "name": "Gauthami Sree",
+          "name": "Sree Gauthami",
           "url": "https://github.com/Sree-Gauthami-Gundaram/ITIS-6177-Assignment8",
           "email": "sree.gauthami1@gmail.com"
         }
