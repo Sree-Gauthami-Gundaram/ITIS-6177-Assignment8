@@ -320,13 +320,13 @@ app.delete("/list/:id", (req, res) => {
       });
   });
 
-  app.get("/orders", (req, res) => {
+app.get("/studentreport", (req, res) => {
     getConnection()
       .then((conn) => {
         conn
-          .query("SELECT * from orders")
+          .query("SELECT * from studentreport")
           .then((rows) => {
-          conn.release();
+              conn.release();
             res.json(rows);
           })
           .catch((err) => {
@@ -338,19 +338,19 @@ app.delete("/list/:id", (req, res) => {
         console.log(err);
       });
   });
-
-  app.get("/orders/:amt", (req, res) => {
-    var amt = req.params.amt;
+  
+app.get("/item/:id", (req, res) => {
+    var id = req.params.id;
     getConnection()
       .then((conn) => {
         conn
-          .query(`SELECT * from orders where ORD_AMOUNT = ?`, amt)
+          .query(`SELECT * from foods where ITEM_ID = ?`, id)
           .then((rows) => {
-            conn.release();
-            res.json(rows);
+              conn.release();
+              res.json(rows);
           })
           .catch((err) => {
-            console.log(err);
+            res.json(err);
             conn.end();
           });
       })
@@ -359,15 +359,15 @@ app.delete("/list/:id", (req, res) => {
       });
   });
 
-  app.get("/orders", (req, res) => {
-    var sorting = req.query.sorting;
+app.get("/customer", (req, res) => {
+    var name = req.query.name;
     getConnection()
       .then((conn) => {
         conn
-          .query(`SELECT * from orders order by ORD_DESCRIPTION ${sorting})`)
+          .query(`SELECT * from customer where CUST_NAME = ?`,name)
           .then((rows) => {
-            conn.release();
-            res.json(rows);
+              conn.release();
+              res.json(rows);
           })
           .catch((err) => {
             console.log(err);
