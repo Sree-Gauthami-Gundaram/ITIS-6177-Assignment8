@@ -16,9 +16,9 @@
     "author": "Sree-Gauthami-Gundaram <sree.gauthami1@gmail.com>",
     "license": "ISC",
     "bugs": {
-      "url": "https://github.com/Sree-Gauthami-Gundaram/ITIS-6177-Assignment8.git/issues"
+      "url": "https://github.com/Sree-Gauthami-Gundaram/ITIS-6177-Assignment8/issues"
     },
-    "homepage": "https://github.com/Sree-Gauthami-Gundaram/ITIS-6177-Assignment8.git.git#readme",
+    "homepage": "https://github.com/Sree-Gauthami-Gundaram/ITIS-6177-Assignment8#readme",
     "dependencies": {
       "body-parser": "^1.19.2",
       "cors": "^2.8.5",
