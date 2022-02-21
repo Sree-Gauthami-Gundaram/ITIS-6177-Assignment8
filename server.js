@@ -45,10 +45,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
  *   schemas:
  *     Company:
  *       type: object
- *       required:
- *         - COMPANY_ID
- *         - COMPANY_NAME
- *         - COMPANY_CITY
  *       properties:
  *         COMPANY_ID:
  *           type: string
@@ -56,10 +52,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
  *           type: string
  *         COMPANY_CITY:
  *           type: string
- *       example:
- *         COMPANY_ID: 25
- *         COMPANY_NAME: Capgemini
- *         COMPANY_CITY: Hyderabad
  */
 /**
  * @swagger
