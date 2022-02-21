@@ -7,28 +7,28 @@ const { check, validationResult } = require("express-validator");
 const { getConnection } = require("./helper");
 const OPTIONS = {
     "definition": {
-        "openapi": "3.0.0",
-        "info": {
-            "title": "Swagger Express Excercise ",
-            "version": "1.0.0",
-            "description": "Express Swagger API",
-            "termsOfService": "http://example.com/terms/",
-            "contact": {
-                "name": "Sree-Gauthami-Gundaram",
-                "url": "https://github.com/Sree-Gauthami-Gundaram",
-                "email": "sree.gauthami1@gmail.com"
-            }
-        },
-
-        "servers": [{
-            "url": "http://137.184.125.91:3000/",
-            "description": "Documentation of Swagger Express API "
-        }]
+      "openapi": "3.0.0",
+      "info": {
+        "title": "Gauthami Sree",
+        "version": "1.0.0",
+        "description": "A Simple Express Swagger API",
+        "termsOfService": "http://example.com/terms/",
+        "contact": {
+          "name": "Gauthami Sree",
+          "url": "https://github.com/Sree-Gauthami-Gundaram/ITIS-6177-Assignment8",
+          "email": "sree.gauthami1@gmail.com"
+        }
+      },
+  
+      "servers": [
+        {
+          "url": "http://137.184.125.91:3000/",
+          "description": "Swagger Express API Documentation"
+        }
+      ]
     },
     "apis": ["./*.js"]
-}
-
-
+  }
 const PORT = process.env.PORT || 3000;
 const app = express();
 const specs = swaggerJsDoc(OPTIONS);
@@ -38,411 +38,345 @@ app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(specs));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-
 /**
  * @swagger
  * components:
  *   schemas:
- *     Company:
+ *     List:
  *       type: object
  *       properties:
- *         COMPANY_ID:
+ *         ITEMCODE:
  *           type: string
- *         COMPANY_NAME:
+ *         ITEMNAME:
  *           type: string
- *         COMPANY_CITY:
+ *         BATCHCODE:
+ *           type: string
+ *         CONAME:
  *           type: string
  */
+
 /**
  * @swagger
- * /company:
+ * /list:
  *   post:
- *     summary: Registering a new company
- *     tags: [company]
+ *     summary: Insert a item
+ *     tags: [listofitem]
  *     requestBody:
  *       content:
  *          application/json:
  *              schema:
  *                type: object
  *                properties:
- *                  COMPANY_ID:
+ *                  ITEMCODE:
  *                    type: string
- *                    example: 21
- *                  COMPANY_NAME:
+ *                    example: I007
+ *                  ITEMNAME:
  *                    type: string
- *                    example: Capgemini
- *                  COMPANY_CITY:
+ *                    example: Gulab Jamun
+ *                  BATCHCODE:
  *                    type: string
- *                    example: Hyderabad
+ *                    example: 2507
+ *                  CONAME:
+ *                    type: string
+ *                    example: GJ
  *     responses:
  *       200:
- *         description: registered successfully
+ *         description: Succesfully inserted
  *         content:
  *           application/json:
  *             schema:
  *               type: object
  *       422:
- *         description:  Failed in Registration
+ *         description: Validation failed
  *         content:
  *           application/json:
  *             schema:
  *               type: object
  *       500:
- *         description: Cannot  register
+ *         description: Could not insert
  */
-
-
-
-app.post("/company", (req, res) => {
+app.post("/list", (req, res) => {
     let body = req.body;
     getConnection()
-        .then((conn) => {
-            conn
-                .query("INSERT INTO COMPANY (COMPANY_ID,COMPANY_NAME,COMPANY_CITY) VALUES (?,?,?)", [body.COMPANY_ID, body.COMPANY_NAME, body.COMPANY_CITY])
-                .then((rows) => {
-                    conn.release();
-                    res.json(rows);
-                })
-                .catch((err) => {
-                    console.log(err);
-                    conn.end();
-                });
-        })
-        .catch((err) => {
+      .then((conn) => {
+        conn
+          .query("INSERT INTO listofitem (ITEMCODE, ITEMNAME, BATCHCODE, CONAME) VALUES (?,?,?,?);",
+          [body.ITEMCODE, body.ITEMNAME, body.BATCHCODE, body.CONAME])
+          .then((rows) => {
+              conn.release();
+              return res.json(rows);
+          })
+          .catch((err) => {
             console.log(err);
-        });
-});
+            conn.end();
+          });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  });
+
 /**
  * @swagger
- * /companies:
+ * /list:
  *   get:
- *     summary: Returns companies list
- *     tags: [company]
+ *     summary: Returns the list of items
+ *     tags: [listofitem]
  *     responses:
  *       200:
- *         description: list of the companies
+ *         description: The list of the items
  *         content:
  *           application/json:
  *             schema:
  *               type: array
  *               items:
- *                 $ref: '#/components/schemas/company'
+ *                 $ref: '#/components/schemas/listofitem'
  *       422:
- *         description: Failed in validation
+ *         description: Validation failed
  *         content:
  *           application/json:
  *             schema:
  *               type: object
  *       500:
- *         description: Cannot  get companies rows
+ *         description: Could not get items
  */
-app.get("/companies", (req, res) => {
+  app.get("/list", (req, res) => {
     getConnection()
-        .then((conn) => {
-            conn
-                .query("SELECT * from company")
-                .then((rows) => {
-                    conn.release();
-                    res.json(rows);
-                })
-                .catch((err) => {
-                    console.log(err);
-                    conn.end();
-                });
-        })
-        .catch((err) => {
+      .then((conn) => {
+        conn
+          .query("SELECT * from listofitem")
+          .then((rows) => {
+              conn.release();
+              return res.json(rows);
+          })
+          .catch((err) => {
             console.log(err);
-        });
-});
+            conn.end();
+          });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  });
 
 /**
  * @swagger
- * /company:
+ * /list:
  *   put:
- *     summary: Updating a company city for a specified company_id
- *     tags: [company]
+ *     summary: Update a item
+ *     tags: [listofitem]
  *     requestBody:
  *       content:
  *          application/json:
  *              schema:
  *                type: object
  *                properties:
- *                  COMPANY_ID:
+ *                  ITEMNAME:
  *                    type: string
- *                    example: 25
- *                  COMPANY_CITY:
- *                    type: string
- *                    example: Hyderabad_new
+ *                    example: Apar
+ *                  ITEMCODE:
+ *                    type: number
+ *                    example: I009
  *     responses:
  *       200:
- *         description: registered successfully
+ *         description: Succesfully updated
  *         content:
  *           application/json:
  *             schema:
  *               type: object
  *       422:
- *         description:  Failed in Registration
+ *         description: Validation failed
  *         content:
  *           application/json:
  *             schema:
  *               type: object
  *       500:
- *         description: Cannot  register
+ *         description: Could not update
  */
-
-app.put("/company", (req, res) => {
+app.put("/list", (req, res) => {
     let body = req.body;
     getConnection()
-        .then((conn) => {
-            conn
-                .query("UPDATE COMPANY SET COMPANY_CITY = ? WHERE COMPANY_ID = ?", [body.COMPANY_CITY, body.COMPANY_ID])
-                .then((rows) => {
-                    conn.release();
-                    res.json(rows);
-                })
-                .catch((err) => {
-                    console.log(err);
-                    conn.end();
-                });
-        })
-        .catch((err) => {
+      .then((conn) => {
+        conn
+          .query("UPDATE listofitem SET ITEMNAME = ? WHERE ITEMCODE = ?",
+          [body.ITEMNAME,  body.ITEMCODE])
+          .then((rows) => {
+              conn.release();
+              return res.json(rows);
+          })
+          .catch((err) => {
             console.log(err);
-        });
-});
+            conn.end();
+          });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  });
 
 /**
  * @swagger
- * /company:
+ * /list:
  *   patch:
- *     summary: Updating company name for a specified company city
- *     tags: [company]
+ *     summary: Update a item
+ *     tags: [listofitem]
  *     requestBody:
  *       content:
  *          application/json:
  *              schema:
  *                type: object
  *                properties:
- *                  COMPANY_NAME:
+ *                  CONAME:
  *                    type: string
- *                    example: Capgemini_old
- *                  COMPANY_CITY:
+ *                    example: Cookie
+ *                  ITEMCODE:
  *                    type: string
- *                    example: Hyderabad
+ *                    example: I005
  *     responses:
  *       200:
- *         description: registered successfully
+ *         description: Succesfully updated
  *         content:
  *           application/json:
  *             schema:
  *               type: object
  *       422:
- *         description:  Failed in Registration
+ *         description: Validation failed
  *         content:
  *           application/json:
  *             schema:
  *               type: object
  *       500:
- *         description: Cannot  register
+ *         description: Could not update
  */
-
-app.patch("/company", (req, res) => {
+app.patch("/list", (req, res) => {
     let body = req.body;
     getConnection()
-        .then((conn) => {
-            conn
-                .query("UPDATE COMPANY SET COMPANY_NAME = ? WHERE COMPANY_CITY = ?", [body.COMPANY_NAME, body.COMPANY_CITY])
-                .then((rows) => {
-                    conn.release();
-                    res.json(rows);
-                })
-                .catch((err) => {
-                    console.log(err);
-                    conn.end();
-                });
-        })
-        .catch((err) => {
+      .then((conn) => {
+        conn
+          .query("UPDATE listofitem SET CONAME = ? WHERE ITEMCODE = ?",
+          [body.CONAME, body.ITEMCODE])
+          .then((rows) => {
+              conn.release();
+              return res.json(rows);
+          })
+          .catch((err) => {
             console.log(err);
-        });
-});
+            conn.end();
+          });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  });
 
 /**
  * @swagger
- * /company/{id}:
+ * /list/{id}:
  *   delete:
- *     summary: Deleteing a company with given id
- *     tags: [company]
+ *     summary: Deletes a item with specified id
+ *     tags: [listofitem]
  *     parameters:
  *       - in: path
  *         name: id
  *         schema:
  *           type: string
- *           example: 25
+ *           example: 26
  *         required: true
- *         description: id  has to be deleted
+ *         description: id that needs to be deleted
  *     responses:
  *       200:
- *         description: Deleted Succesfully .
+ *         description: Succesfully deleted.
  *         content:
  *           application/json:
  *             schema:
  *               type: object
  *       422:
- *         description: Validation Failed
+ *         description: Validation failed
  *         content:
  *           application/json:
  *             schema:
  *               type: object
  *       500:
- *         description: Cannot delete a company
+ *         description: Could not delete
  */
 
-app.delete("/company/:id", (req, res) => {
+app.delete("/list/:id", (req, res) => {
     let id = req.params.id;
     getConnection()
-        .then((conn) => {
-            conn
-                .query("DELETE FROM COMPANY WHERE COMPANY_ID = ?", id)
-                .then((rows) => {
-                    conn.release();
-                    res.json(rows);
-                })
-                .catch((err) => {
-                    console.log(err);
-                    conn.end();
-                });
-        })
-        .catch((err) => {
+      .then((conn) => {
+        conn
+          .query("DELETE FROM listofitem WHERE ITEMCODE = ?",id)
+          .then((rows) => {
+              conn.release();
+              return res.json(rows);
+          })
+          .catch((err) => {
             console.log(err);
-        });
-});
+            conn.end();
+          });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  });
 
-app.get("/customers", (req, res) => {
+  app.get("/orders", (req, res) => {
     getConnection()
-        .then((conn) => {
-            conn
-                .query("SELECT * from customer")
-                .then((rows) => {
-                    conn.release();
-                    res.json(rows);
-                })
-                .catch((err) => {
-                    console.log(err);
-                    conn.end();
-                });
-        })
-        .catch((err) => {
+      .then((conn) => {
+        conn
+          .query("SELECT * from orders")
+          .then((rows) => {
+          conn.release();
+            res.json(rows);
+          })
+          .catch((err) => {
             console.log(err);
-        });
-});
+            conn.end();
+          });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  });
 
-app.get("/company", (req, res) => {
+  app.get("/orders/:amt", (req, res) => {
+    var amt = req.params.amt;
     getConnection()
-        .then((conn) => {
-            conn
-                .query("SELECT * from company")
-                .then((rows) => {
-                    res.json(rows);
-                })
-                .catch((err) => {
-                    console.log(err);
-                    conn.end();
-                });
-        })
-        .catch((err) => {
+      .then((conn) => {
+        conn
+          .query(`SELECT * from orders where ORD_AMOUNT = ?`, amt)
+          .then((rows) => {
+            conn.release();
+            res.json(rows);
+          })
+          .catch((err) => {
             console.log(err);
-        });
-});
+            conn.end();
+          });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  });
 
-app.get("/daysorder", (req, res) => {
+  app.get("/orders", (req, res) => {
+    var sorting = req.query.sorting;
     getConnection()
-        .then((conn) => {
-            conn
-                .query("SELECT * from daysorder")
-                .then((rows) => {
-                    res.json(rows);
-                })
-                .catch((err) => {
-                    console.log(err);
-                    conn.end();
-                });
-        })
-        .catch((err) => {
+      .then((conn) => {
+        conn
+          .query(`SELECT * from orders order by ORD_DESCRIPTION ${sorting})`)
+          .then((rows) => {
+            conn.release();
+            res.json(rows);
+          })
+          .catch((err) => {
             console.log(err);
-        });
-});
+            conn.end();
+          });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  });
 
-app.get("/despatch", (req, res) => {
-    getConnection()
-        .then((conn) => {
-            conn
-                .query("SELECT * from despatch")
-                .then((rows) => {
-                    res.json(rows);
-                })
-                .catch((err) => {
-                    console.log(err);
-                    conn.end();
-                });
-        })
-        .catch((err) => {
-            console.log(err);
-        });
-});
-
-app.get("/foods", (req, res) => {
-    getConnection()
-        .then((conn) => {
-            conn
-                .query("SELECT * from foods")
-                .then((rows) => {
-                    res.json(rows);
-                })
-                .catch((err) => {
-                    console.log(err);
-                    conn.end();
-                });
-        })
-        .catch((err) => {
-            console.log(err);
-        });
-});
-
-app.get("/customer/:id", (req, res) => {
-    var id = req.params.id;
-    getConnection()
-        .then((conn) => {
-            conn
-                .query(`SELECT * from customer where CUST_CODE = ?`, id)
-                .then((rows) => {
-                    res.json(rows);
-                })
-                .catch((err) => {
-                    console.log(err);
-                    conn.end();
-                });
-        })
-        .catch((err) => {
-            console.log(err);
-        });
-});
-
-app.get("/orders", (req, res) => {
-    var amount = req.query.amount;
-    getConnection()
-        .then((conn) => {
-            conn
-                .query(`SELECT * from orders where ORD_AMOUNT = ?`, amount)
-                .then((rows) => {
-                    console.log(rows);
-                    res.json(rows);
-                })
-                .catch((err) => {
-                    console.log(err);
-                    conn.end();
-                });
-        })
-        .catch((err) => {
-            console.log(err);
-        });
-});
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
