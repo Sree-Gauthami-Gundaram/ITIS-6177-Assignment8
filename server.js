@@ -173,10 +173,10 @@ app.post("/list", (req, res) => {
  *                properties:
  *                  ITEMNAME:
  *                    type: string
- *                    example: Apar
+ *                    example: Sree
  *                  ITEMCODE:
  *                    type: number
- *                    example: I009
+ *                    example: I007
  *     responses:
  *       200:
  *         description: Succesfully updated
@@ -228,10 +228,10 @@ app.put("/list", (req, res) => {
  *                properties:
  *                  CONAME:
  *                    type: string
- *                    example: Cookie
+ *                    example: Biscuit
  *                  ITEMCODE:
  *                    type: string
- *                    example: I005
+ *                    example: I007
  *     responses:
  *       200:
  *         description: Succesfully updated
@@ -280,7 +280,7 @@ app.patch("/list", (req, res) => {
  *         name: id
  *         schema:
  *           type: string
- *           example: 26
+ *           example: I007
  *         required: true
  *         description: id that needs to be deleted
  *     responses:
