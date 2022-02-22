@@ -95,7 +95,24 @@ app.use(bodyParser.urlencoded({ extended: false }));
  *       500:
  *         description: Could not insert
  */
-app.post("/list", (req, res) => {
+app.post("/list", [
+    check("ITEMCODE", "ITEMCODE must not be empty").isLength({
+      min: 1,
+    }),
+    check("ITEMNAME", "ITEMNAME must not be empty").isLength({
+      min: 1,
+    }),
+    check("BATCHCODE", "BATCHCODE must not be empty").isLength({
+      min: 1,
+    }),
+    check("CONAME", "CONAME must not be empty").isLength({
+      min: 1,
+    }),
+  ], (req, res) => {
+    const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).json({ errors: errors.array() });
+  }
     let body = req.body;
     getConnection()
       .then((conn) => {
@@ -193,7 +210,18 @@ app.post("/list", (req, res) => {
  *       500:
  *         description: Could not update
  */
-app.put("/list", (req, res) => {
+app.put("/list", [
+    check("ITEMCODE", "ITEMCODE must not be empty").isLength({
+      min: 1,
+    }),
+    check("ITEMNAME", "ITEMNAME must not be empty").isLength({
+      min: 1,
+    }),
+  ], (req, res) => {
+    const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).json({ errors: errors.array() });
+  }
     let body = req.body;
     getConnection()
       .then((conn) => {
@@ -248,7 +276,18 @@ app.put("/list", (req, res) => {
  *       500:
  *         description: Could not update
  */
-app.patch("/list", (req, res) => {
+app.patch("/list", [
+    check("ITEMCODE", "ITEMCODE must not be empty").isLength({
+      min: 1,
+    }),
+    check("CONAME", "CONAME must not be empty").isLength({
+      min: 1,
+    }),
+  ], (req, res) => {
+    const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).json({ errors: errors.array() });
+  }
     let body = req.body;
     getConnection()
       .then((conn) => {
@@ -300,7 +339,11 @@ app.patch("/list", (req, res) => {
  *         description: Could not delete
  */
 
-app.delete("/list/:id", (req, res) => {
+app.delete("/list/:id", [
+    check("id", "ITEMCODE must not be empty").isLength({
+      min: 1,
+    })
+  ], (req, res) => {
     let id = req.params.id;
     getConnection()
       .then((conn) => {
